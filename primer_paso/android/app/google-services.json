@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "496098287203",
+    "project_id": "primerpaso-92fe3",
+    "storage_bucket": "primerpaso-92fe3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496098287203:android:78c29164ebea2b3c1e2256",
+        "android_client_info": {
+          "package_name": "com.example.primer_paso"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUH0BMK950vuhvRFUcK7l-ZOqD5qsXRTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
