@@ -9,9 +9,7 @@ import 'vacante_detail_screen.dart';
 import 'vacante_model.dart';
 import 'vacante_repository.dart';
 
-/// Catálogo con búsqueda en tiempo real y filtro por tipo.
 class VacantesScreen extends StatefulWidget {
-  /// Argumento opcional: tipo con el que se abre el catálogo.
   final String? tipoInicial;
 
   const VacantesScreen({super.key, this.tipoInicial});

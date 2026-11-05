@@ -1,6 +1,5 @@
 import 'vacante_model.dart';
 
-// Datos de ejemplo (ficticios) para la Etapa 1 (lista fija local).
 const List<Vacante> vacantesSemilla = [
   Vacante(
     id: 'v1',

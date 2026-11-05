@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'core_theme.dart';
 
-/// Componente reutilizable 2: botón de acción del tema global.
 /// [outlined] = true da la variante secundaria (ej. "Mis favoritos").
 class CustomButton extends StatelessWidget {
   final String texto;

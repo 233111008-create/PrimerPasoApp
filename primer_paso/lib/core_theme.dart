@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Paleta global de "Primer Paso" (ODS 8: trabajo decente).
 class AppColors {
   static const Color primario = Color(0xFF183B5B);
   static const Color acento = Color(0xFFF28B68);
@@ -12,7 +11,7 @@ class AppColors {
   static const Color favorito = Color(0xFFD32F2F);
   static const Color sombra = Color(0x14183B5B);
 
-  // Color por tipo de oportunidad.
+
   static const Color vacante = Color(0xFF224F7A);
   static const Color beca = Color(0xFF2E7D5B);
   static const Color practica = Color(0xFF8A5A14);

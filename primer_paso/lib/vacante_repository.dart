@@ -1,8 +1,6 @@
 import 'vacante_model.dart';
 import 'vacantes_semilla.dart';
 
-/// Etapa 1: datos locales (lista fija). En la Etapa 2 solo se cambia este
-/// Repository por Firestore.
 class VacanteRepository {
   final List<Vacante> _vacantes = List.of(vacantesSemilla)
     ..sort((a, b) => a.fechaLimite.compareTo(b.fechaLimite));

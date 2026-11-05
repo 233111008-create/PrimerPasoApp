@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'core_theme.dart';
 import 'vacante_model.dart';
 
-/// Componente reutilizable 1: tarjeta de una oportunidad.
-/// No tiene lógica: recibe datos y callbacks desde la pantalla.
 class VacanteCard extends StatelessWidget {
   final Vacante vacante;
   final bool esFavorito;

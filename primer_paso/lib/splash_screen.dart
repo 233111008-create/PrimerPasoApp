@@ -44,7 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Asset propio declarado en pubspec.yaml (img/logo.png).
             Image.asset(
               'img/logo.png',
               width: 120,
