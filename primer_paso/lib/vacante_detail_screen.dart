@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'core_theme.dart';
 import 'custom_button.dart';
 import 'favoritos_provider.dart';
+import 'favoritos_ui.dart';
 import 'vacante_model.dart';
 
 /// Detalle: recibe la [Vacante] como argumento de navegación.
@@ -14,8 +15,9 @@ class VacanteDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final esFavorito =
-        context.watch<FavoritosProvider>().esFavorito(vacante.id);
+    final esFavorito = context.watch<FavoritosProvider>().esFavorito(
+      vacante.id,
+    );
     final color = AppColors.colorTipo(vacante.tipo);
     final estilo = Theme.of(context).textTheme;
 
@@ -33,8 +35,11 @@ class VacanteDetailScreen extends StatelessWidget {
                 color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Icon(AppColors.iconoTipo(vacante.tipo),
-                  size: 32, color: color),
+              child: Icon(
+                AppColors.iconoTipo(vacante.tipo),
+                size: 32,
+                color: color,
+              ),
             ),
           ),
           const SizedBox(height: AppSpacing.md),
@@ -69,8 +74,11 @@ class VacanteDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
               child: Row(
                 children: [
-                  const Icon(Icons.check_circle_outline,
-                      size: 20, color: AppColors.primario),
+                  const Icon(
+                    Icons.check_circle_outline,
+                    size: 20,
+                    color: AppColors.primario,
+                  ),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(child: Text(r, style: estilo.bodyMedium)),
                 ],
@@ -80,8 +88,10 @@ class VacanteDetailScreen extends StatelessWidget {
           CustomButton(
             texto: esFavorito ? 'Quitar de favoritos' : 'Guardar en favoritos',
             icono: esFavorito ? Icons.favorite : Icons.favorite_border,
-            onPressed: () =>
-                context.read<FavoritosProvider>().alternar(vacante),
+            onPressed: () => ejecutarCambioFavorito(
+              context,
+              () => context.read<FavoritosProvider>().alternar(vacante),
+            ),
           ),
         ],
       ),

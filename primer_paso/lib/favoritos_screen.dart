@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'app_routes.dart';
 import 'core_theme.dart';
 import 'favoritos_provider.dart';
+import 'favoritos_ui.dart';
 import 'vacante_card.dart';
 
 class FavoritosScreen extends StatelessWidget {
@@ -26,8 +27,10 @@ class FavoritosScreen extends StatelessWidget {
                 return VacanteCard(
                   vacante: v,
                   esFavorito: true,
-                  onFavorito: () =>
-                      context.read<FavoritosProvider>().quitar(v.id),
+                  onFavorito: () => ejecutarCambioFavorito(
+                    context,
+                    () => context.read<FavoritosProvider>().quitar(v.id),
+                  ),
                   onTap: () => Navigator.pushNamed(
                     context,
                     AppRoutes.detalle,

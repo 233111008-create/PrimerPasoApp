@@ -1,17 +1,25 @@
-# primer_paso
+# Primer Paso
 
-A new Flutter project.
+Aplicación Flutter para explorar vacantes, becas y prácticas para jóvenes.
 
-## Getting Started
+## Ejecutar
 
-This project is a starting point for a Flutter application.
+```shell
+flutter pub get
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
+Los recursos visuales se cargan desde `img/`, declarado como carpeta de assets
+en `pubspec.yaml`.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Firebase
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+La app inicializa Firebase al arrancar y usa Firebase Authentication para crear
+cuentas, iniciar sesión y cerrar sesión con correo y contraseña. Habilita el
+proveedor **Correo electrónico/contraseña** en Firebase Console antes de probar
+el acceso. Las opciones de Firebase se encuentran en `lib/firebase_options.dart`;
+si cambias de proyecto, vuelve a generarlas con FlutterFire CLI.
+
+Las oportunidades de ejemplo y los favoritos se mantienen localmente. Los
+favoritos se guardan por cuenta y sobreviven al cierre de sesión y al reinicio
+de la app, pero todavía no se sincronizan entre dispositivos con Cloud Firestore.

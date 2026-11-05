@@ -1,9 +1,42 @@
-/// Etapa 1: no persistimos favoritos en ningún backend. Este repositorio existe
-/// solo para mantener compatibilidad con el flujo actual de la app.
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class FavoritosRepository {
-  Future<List<String>> obtenerIds() async => const [];
+  String _clave(String usuarioId) => 'favoritos_$usuarioId';
 
-  Future<void> agregar(String idVacante) async {}
+  Future<List<String>> obtenerIds(String usuarioId) async {
+    try {
+      final preferencias = await SharedPreferences.getInstance();
+      return preferencias.getStringList(_clave(usuarioId)) ?? const [];
+    } on PlatformException catch (error) {
+      throw FavoritosStorageException(
+        'No se pudieron cargar tus favoritos: ${error.message ?? error.code}',
+      );
+    }
+  }
 
-  Future<void> quitar(String idVacante) async {}
+  Future<void> guardarIds(String usuarioId, List<String> ids) async {
+    try {
+      final preferencias = await SharedPreferences.getInstance();
+      final guardados = await preferencias.setStringList(
+        _clave(usuarioId),
+        ids,
+      );
+      if (!guardados) {
+        throw const FavoritosStorageException(
+          'No se pudieron guardar tus favoritos. Inténtalo de nuevo.',
+        );
+      }
+    } on PlatformException catch (error) {
+      throw FavoritosStorageException(
+        'No se pudieron guardar tus favoritos: ${error.message ?? error.code}',
+      );
+    }
+  }
+}
+
+class FavoritosStorageException implements Exception {
+  final String mensaje;
+
+  const FavoritosStorageException(this.mensaje);
 }

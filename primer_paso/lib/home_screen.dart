@@ -42,28 +42,90 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.md),
         children: [
           Container(
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: AppColors.primario,
+              gradient: const LinearGradient(
+                colors: [AppColors.primario, Color(0xFF28577A)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
               borderRadius: BorderRadius.circular(24),
+              boxShadow: const [
+                BoxShadow(
+                  color: AppColors.sombra,
+                  blurRadius: 24,
+                  offset: Offset(0, 12),
+                ),
+              ],
             ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                Text('Hola', style: TextStyle(color: Colors.white70)),
-                SizedBox(height: AppSpacing.sm),
-                Text(
-                  'Da tu primer paso hacia un trabajo decente',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'HOLA, QUÉ BUENO VERTE',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.1,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      const Text(
+                        'Tu próximo paso empieza aquí',
+                        style: TextStyle(
+                          fontSize: 23,
+                          height: 1.15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.sm),
+                      const Text(
+                        'Vacantes, becas y prácticas para crecer.',
+                        style: TextStyle(color: Colors.white70, height: 1.4),
+                      ),
+                      const SizedBox(height: AppSpacing.md),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.14),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 7,
+                          ),
+                          child: Text(
+                            'ODS 8 · Trabajo decente',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: AppSpacing.sm),
-                Text(
-                  'Vacantes, becas y prácticas para jóvenes (ODS 8).',
-                  style: TextStyle(color: Colors.white70),
+                const SizedBox(width: AppSpacing.sm),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(
+                    'img/home.png',
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.school_outlined,
+                      size: 56,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -89,8 +151,10 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.lg),
-          Text('Explora por tipo',
-              style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            'Explora por tipo',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           const SizedBox(height: AppSpacing.sm),
           Row(
             children: [
@@ -140,13 +204,22 @@ class _Estadistica extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
+        boxShadow: const [
+          BoxShadow(
+            color: AppColors.sombra,
+            blurRadius: 16,
+            offset: Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         children: [
           Icon(icono, color: AppColors.primario),
           const SizedBox(height: AppSpacing.xs),
-          Text(valor,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+          Text(
+            valor,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+          ),
           Text(etiqueta, style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
@@ -181,8 +254,10 @@ class _AccesoTipo extends StatelessWidget {
           children: [
             Icon(AppColors.iconoTipo(tipo), color: color),
             const SizedBox(height: AppSpacing.sm),
-            Text(nombre,
-                style: TextStyle(color: color, fontWeight: FontWeight.w500)),
+            Text(
+              nombre,
+              style: TextStyle(color: color, fontWeight: FontWeight.w500),
+            ),
           ],
         ),
       ),

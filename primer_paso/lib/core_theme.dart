@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+
 import 'vacante_model.dart';
 
 /// Paleta global de "Primer Paso" (ODS 8: trabajo decente).
 class AppColors {
-  static const Color primario = Color(0xFF224F7A);
-  static const Color acento = Color(0xFFF2A265);
-  static const Color fondo = Color(0xFFF3F6FA);
+  static const Color primario = Color(0xFF183B5B);
+  static const Color acento = Color(0xFFF28B68);
+  static const Color fondo = Color(0xFFF5F7FB);
   static const Color superficie = Colors.white;
-  static const Color textoPrincipal = Color(0xFF1F2933);
-  static const Color textoSecundario = Color(0xFF7B8794);
-  static const Color borde = Color(0xFFD5DEE8);
+  static const Color textoPrincipal = Color(0xFF172B3A);
+  static const Color textoSecundario = Color(0xFF738292);
+  static const Color borde = Color(0xFFE2E8EF);
   static const Color favorito = Color(0xFFD32F2F);
+  static const Color sombra = Color(0x14183B5B);
 
   // Color por tipo de oportunidad.
   static const Color vacante = Color(0xFF224F7A);
@@ -59,9 +61,11 @@ ThemeData buildAppTheme() {
       surface: AppColors.superficie,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.primario,
-      foregroundColor: Colors.white,
+      backgroundColor: AppColors.fondo,
+      foregroundColor: AppColors.textoPrincipal,
       elevation: 0,
+      scrolledUnderElevation: 1,
+      surfaceTintColor: Colors.transparent,
     ),
     textTheme: const TextTheme(
       headlineSmall: TextStyle(
@@ -80,9 +84,18 @@ ThemeData buildAppTheme() {
       filled: true,
       fillColor: Colors.white,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(color: AppColors.borde),
       ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(color: AppColors.borde),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(color: AppColors.primario, width: 1.5),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: Colors.white,
@@ -97,7 +110,9 @@ ThemeData buildAppTheme() {
         backgroundColor: AppColors.primario,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 2,
+        shadowColor: AppColors.sombra,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       ),
     ),
   );

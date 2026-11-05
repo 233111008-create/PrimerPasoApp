@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'core_theme.dart';
 import 'vacante_model.dart';
 
@@ -23,12 +24,13 @@ class VacanteCard extends StatelessWidget {
     final color = AppColors.colorTipo(vacante.tipo);
 
     return Card(
-      elevation: 1,
+      elevation: 2,
+      shadowColor: AppColors.sombra,
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(22),
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.md),
           child: Row(

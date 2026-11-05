@@ -69,74 +69,94 @@ class _AuthScreenState extends State<AuthScreen> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: Form(
             key: _formKey,
-            child: Column(
-              children: [
-                Image.asset(
-                  'img/logo.png',
-                  width: 96,
-                  height: 96,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    Icons.trending_up,
-                    size: 80,
-                    color: AppColors.primario,
-                  ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 460),
+              child: Container(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(26),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.sombra,
+                      blurRadius: 28,
+                      offset: Offset(0, 12),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppSpacing.lg),
-                TextFormField(
-                  controller: _correoCtrl,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    labelText: 'Correo electrónico',
-                    prefixIcon: Icon(Icons.mail_outline),
-                  ),
-                  validator: (v) {
-                    final t = (v ?? '').trim();
-                    if (t.isEmpty) return 'Escribe tu correo.';
-                    if (!t.contains('@') || !t.contains('.')) {
-                      return 'Correo no válido.';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: AppSpacing.md),
-                TextFormField(
-                  controller: _contrasenaCtrl,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Contraseña',
-                    prefixIcon: Icon(Icons.lock_outline),
-                  ),
-                  validator: (v) {
-                    if ((v ?? '').isEmpty) return 'Escribe tu contraseña.';
-                    if (v!.length < 6) return 'Mínimo 6 caracteres.';
-                    return null;
-                  },
-                ),
-                if (_error != null) ...[
-                  const SizedBox(height: AppSpacing.md),
-                  Text(_error!, style: const TextStyle(color: AppColors.favorito)),
-                ],
-                const SizedBox(height: AppSpacing.lg),
-                _cargando
-                    ? const CircularProgressIndicator()
-                    : CustomButton(
-                        texto: _esRegistro ? 'Registrarme' : 'Entrar',
-                        onPressed: _enviar,
+                child: Column(
+                  children: [
+                    Image.asset(
+                      'img/logo.png',
+                      width: 96,
+                      height: 96,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.trending_up,
+                        size: 80,
+                        color: AppColors.primario,
                       ),
-                TextButton(
-                  onPressed: _cargando
-                      ? null
-                      : () => setState(() {
-                            _esRegistro = !_esRegistro;
-                            _error = null;
-                          }),
-                  child: Text(
-                    _esRegistro
-                        ? '¿Ya tienes cuenta? Inicia sesión'
-                        : '¿No tienes cuenta? Regístrate',
-                  ),
+                    ),
+                    const SizedBox(height: AppSpacing.lg),
+                    TextFormField(
+                      controller: _correoCtrl,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        labelText: 'Correo electrónico',
+                        prefixIcon: Icon(Icons.mail_outline),
+                      ),
+                      validator: (v) {
+                        final t = (v ?? '').trim();
+                        if (t.isEmpty) return 'Escribe tu correo.';
+                        if (!t.contains('@') || !t.contains('.')) {
+                          return 'Correo no válido.';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    TextFormField(
+                      controller: _contrasenaCtrl,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Contraseña',
+                        prefixIcon: Icon(Icons.lock_outline),
+                      ),
+                      validator: (v) {
+                        if ((v ?? '').isEmpty) return 'Escribe tu contraseña.';
+                        if (v!.length < 6) return 'Mínimo 6 caracteres.';
+                        return null;
+                      },
+                    ),
+                    if (_error != null) ...[
+                      const SizedBox(height: AppSpacing.md),
+                      Text(
+                        _error!,
+                        style: const TextStyle(color: AppColors.favorito),
+                      ),
+                    ],
+                    const SizedBox(height: AppSpacing.lg),
+                    _cargando
+                        ? const CircularProgressIndicator()
+                        : CustomButton(
+                            texto: _esRegistro ? 'Registrarme' : 'Entrar',
+                            onPressed: _enviar,
+                          ),
+                    TextButton(
+                      onPressed: _cargando
+                          ? null
+                          : () => setState(() {
+                              _esRegistro = !_esRegistro;
+                              _error = null;
+                            }),
+                      child: Text(
+                        _esRegistro
+                            ? '¿Ya tienes cuenta? Inicia sesión'
+                            : '¿No tienes cuenta? Regístrate',
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

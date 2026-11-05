@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'app_routes.dart';
 import 'core_theme.dart';
 import 'favoritos_provider.dart';
+import 'favoritos_ui.dart';
 import 'vacante_card.dart';
 import 'vacante_model.dart';
 import 'vacante_repository.dart';
@@ -60,7 +61,11 @@ class _VacantesScreenState extends State<VacantesScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(
-                AppSpacing.md, AppSpacing.md, AppSpacing.md, AppSpacing.sm),
+              AppSpacing.md,
+              AppSpacing.md,
+              AppSpacing.md,
+              AppSpacing.sm,
+            ),
             child: TextField(
               controller: _buscador,
               onChanged: (v) => setState(() => _texto = v),
@@ -92,8 +97,10 @@ class _VacantesScreenState extends State<VacantesScreen> {
                       return VacanteCard(
                         vacante: v,
                         esFavorito: favoritos.esFavorito(v.id),
-                        onFavorito: () =>
-                            context.read<FavoritosProvider>().alternar(v),
+                        onFavorito: () => ejecutarCambioFavorito(
+                          context,
+                          () => context.read<FavoritosProvider>().alternar(v),
+                        ),
                         onTap: () => Navigator.pushNamed(
                           context,
                           AppRoutes.detalle,
