@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'app_routes.dart';
 import 'core_theme.dart';
 import 'favoritos_provider.dart';
-import 'favoritos_ui.dart';
+import 'favoritos_screen.dart';
 import 'vacante_card.dart';
+import 'vacante_detail_screen.dart';
 import 'vacante_model.dart';
 import 'vacante_repository.dart';
 
 /// Catálogo con búsqueda en tiempo real y filtro por tipo.
 class VacantesScreen extends StatefulWidget {
   /// Argumento opcional: tipo con el que se abre el catálogo.
-  final TipoOportunidad? tipoInicial;
+  final String? tipoInicial;
 
   const VacantesScreen({super.key, this.tipoInicial});
 
@@ -24,7 +24,7 @@ class _VacantesScreenState extends State<VacantesScreen> {
   final VacanteRepository _repository = VacanteRepository();
   final TextEditingController _buscador = TextEditingController();
   String _texto = '';
-  TipoOportunidad? _tipo;
+  String? _tipo;
 
   @override
   void initState() {
@@ -48,7 +48,14 @@ class _VacantesScreenState extends State<VacantesScreen> {
         title: const Text('Oportunidades'),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.favoritos),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavoritosScreen(),
+                ),
+              );
+            },
             icon: Badge(
               isLabelVisible: favoritos.cantidad > 0,
               label: Text('${favoritos.cantidad}'),
@@ -82,7 +89,7 @@ class _VacantesScreenState extends State<VacantesScreen> {
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
               children: [
                 _chip('Todas', null),
-                for (final t in TipoOportunidad.values) _chip(t.etiqueta, t),
+                for (final t in tiposOportunidad) _chip(t, t),
               ],
             ),
           ),
@@ -97,15 +104,17 @@ class _VacantesScreenState extends State<VacantesScreen> {
                       return VacanteCard(
                         vacante: v,
                         esFavorito: favoritos.esFavorito(v.id),
-                        onFavorito: () => ejecutarCambioFavorito(
-                          context,
-                          () => context.read<FavoritosProvider>().alternar(v),
-                        ),
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.detalle,
-                          arguments: v,
-                        ),
+                        onFavorito: () =>
+                            context.read<FavoritosProvider>().alternar(v),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  VacanteDetailScreen(vacante: v),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -115,11 +124,11 @@ class _VacantesScreenState extends State<VacantesScreen> {
     );
   }
 
-  Widget _chip(String texto, TipoOportunidad? tipo) {
+  Widget _chip(String texto, String? tipo) {
     final seleccionado = _tipo == tipo;
     return Padding(
       padding: const EdgeInsets.only(right: AppSpacing.sm),
-      child: ChoiceChip(
+      child: FilterChip(
         label: Text(texto),
         selected: seleccionado,
         showCheckmark: false,

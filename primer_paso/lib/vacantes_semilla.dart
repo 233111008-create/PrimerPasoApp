@@ -1,13 +1,12 @@
 import 'vacante_model.dart';
 
-// Datos de ejemplo (ficticios). Se suben a Firestore la primera vez y sirven
-// de respaldo si no hay conexión.
+// Datos de ejemplo (ficticios) para la Etapa 1 (lista fija local).
 const List<Vacante> vacantesSemilla = [
   Vacante(
     id: 'v1',
     titulo: 'Auxiliar administrativo',
     empresa: 'Distribuidora Norte (ejemplo)',
-    tipo: TipoOportunidad.vacante,
+    tipo: 'Vacante',
     modalidad: 'Presencial',
     ubicacion: 'Pachuca, Hidalgo',
     apoyo: 'Sueldo mensual con prestaciones de ley',
@@ -24,7 +23,7 @@ const List<Vacante> vacantesSemilla = [
     id: 'v2',
     titulo: 'Desarrollador móvil junior',
     empresa: 'Estudio Pixel (ejemplo)',
-    tipo: TipoOportunidad.vacante,
+    tipo: 'Vacante',
     modalidad: 'Híbrido',
     ubicacion: 'Ciudad de México',
     apoyo: 'Sueldo mensual con prestaciones de ley',
@@ -41,7 +40,7 @@ const List<Vacante> vacantesSemilla = [
     id: 'v3',
     titulo: 'Ejecutivo de atención a clientes',
     empresa: 'Servicios Aurora (ejemplo)',
-    tipo: TipoOportunidad.vacante,
+    tipo: 'Vacante',
     modalidad: 'Remoto',
     ubicacion: 'Todo México',
     apoyo: 'Sueldo base más bonos',
@@ -58,7 +57,7 @@ const List<Vacante> vacantesSemilla = [
     id: 'b1',
     titulo: 'Beca de excelencia académica',
     empresa: 'Fundación Futuro (ejemplo)',
-    tipo: TipoOportunidad.beca,
+    tipo: 'Beca',
     modalidad: 'Remoto',
     ubicacion: 'Todo México',
     apoyo: 'Apoyo económico mensual durante un semestre',
@@ -75,7 +74,7 @@ const List<Vacante> vacantesSemilla = [
     id: 'b2',
     titulo: 'Beca de capacitación en tecnología',
     empresa: 'Academia Digital MX (ejemplo)',
-    tipo: TipoOportunidad.beca,
+    tipo: 'Beca',
     modalidad: 'Remoto',
     ubicacion: 'Todo México',
     apoyo: 'Curso gratuito y constancia',
@@ -92,7 +91,7 @@ const List<Vacante> vacantesSemilla = [
     id: 'b3',
     titulo: 'Beca para jóvenes emprendedores',
     empresa: 'Impulso Joven (ejemplo)',
-    tipo: TipoOportunidad.beca,
+    tipo: 'Beca',
     modalidad: 'Híbrido',
     ubicacion: 'Querétaro, Querétaro',
     apoyo: 'Capital semilla y asesoría',
@@ -109,7 +108,7 @@ const List<Vacante> vacantesSemilla = [
     id: 'p1',
     titulo: 'Prácticas profesionales en TI',
     empresa: 'Soluciones Tec (ejemplo)',
-    tipo: TipoOportunidad.practica,
+    tipo: 'Práctica',
     modalidad: 'Presencial',
     ubicacion: 'Pachuca, Hidalgo',
     apoyo: 'Apoyo económico mensual',
@@ -126,7 +125,7 @@ const List<Vacante> vacantesSemilla = [
     id: 'p2',
     titulo: 'Prácticas en diseño y comunicación',
     empresa: 'Agencia Creativa Sol (ejemplo)',
-    tipo: TipoOportunidad.practica,
+    tipo: 'Práctica',
     modalidad: 'Híbrido',
     ubicacion: 'Ciudad de México',
     apoyo: 'Apoyo para transporte y comida',

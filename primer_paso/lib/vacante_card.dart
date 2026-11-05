@@ -63,7 +63,7 @@ class VacanteCard extends StatelessWidget {
                     Wrap(
                       spacing: AppSpacing.sm,
                       children: [
-                        _Etiqueta(texto: vacante.tipo.etiqueta, color: color),
+                        _Etiqueta(texto: vacante.tipo, color: color),
                         _Etiqueta(
                           texto: vacante.modalidad,
                           color: AppColors.textoSecundario,

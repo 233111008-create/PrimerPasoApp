@@ -1,32 +1,17 @@
 import 'vacante_model.dart';
 import 'vacantes_semilla.dart';
 
-/// Etapa 1: datos locales en memoria.
+/// Etapa 1: datos locales (lista fija). En la Etapa 2 solo se cambia este
+/// Repository por Firestore.
 class VacanteRepository {
-  static final VacanteRepository _instancia = VacanteRepository._();
-  factory VacanteRepository() => _instancia;
-  VacanteRepository._();
+  final List<Vacante> _vacantes = List.of(vacantesSemilla)
+    ..sort((a, b) => a.fechaLimite.compareTo(b.fechaLimite));
 
-  List<Vacante> _cache = [];
+  List<Vacante> obtenerVacantes() => _vacantes;
 
-  Future<void> cargar() async {
-    await Future.delayed(const Duration(milliseconds: 400));
-    _cache = List.of(vacantesSemilla)
-      ..sort((a, b) => a.fechaLimite.compareTo(b.fechaLimite));
-  }
-
-  List<Vacante> obtenerVacantes() => _cache;
-
-  Vacante? obtenerPorId(String id) {
-    for (final v in _cache) {
-      if (v.id == id) return v;
-    }
-    return null;
-  }
-
-  List<Vacante> filtrar({TipoOportunidad? tipo, String busqueda = ''}) {
+  List<Vacante> filtrar({String? tipo, String busqueda = ''}) {
     final q = busqueda.trim().toLowerCase();
-    return _cache.where((v) {
+    return _vacantes.where((v) {
       final coincideTipo = tipo == null || v.tipo == tipo;
       final coincideTexto = q.isEmpty ||
           v.titulo.toLowerCase().contains(q) ||

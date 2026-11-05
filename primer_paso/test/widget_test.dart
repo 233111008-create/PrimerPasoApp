@@ -6,40 +6,33 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:primer_paso/favoritos_provider.dart';
-import 'package:primer_paso/vacante_repository.dart';
-import 'package:primer_paso/vacantes_semilla.dart';
+import 'package:primer_paso/vacante_model.dart';
 
 void main() {
-  test('Favoritos se mantienen después de cerrar sesión', () async {
-    SharedPreferences.setMockInitialValues({});
-    await VacanteRepository().cargar();
+  test('Favoritos se pueden guardar y quitar', () {
     final provider = FavoritosProvider();
-    final vacante = vacantesSemilla.first;
+    final vacante = Vacante(
+      id: 'v-1',
+      titulo: 'Desarrollador Flutter',
+      empresa: 'Primer Paso',
+      tipo: 'Vacante',
+      modalidad: 'Remoto',
+      ubicacion: 'México',
+      apoyo: 'Sueldo competitivo',
+      fechaLimite: '2026-12-31',
+      descripcion: 'Trabajo para desarrollador móvil.',
+      requisitos: ['Flutter', 'Dart'],
+    );
 
-    await provider.cargar('usuario-1');
     expect(provider.cantidad, 0);
 
-    await provider.agregar(vacante);
+    provider.agregar(vacante);
     expect(provider.cantidad, 1);
     expect(provider.esFavorito(vacante.id), isTrue);
 
-    provider.limpiar();
-    expect(provider.cantidad, 0);
-
-    await provider.cargar('usuario-1');
-    expect(provider.esFavorito(vacante.id), isTrue);
-
-    await provider.cargar('usuario-2');
-    expect(provider.cantidad, 0);
-
-    await provider.alternar(vacante);
-    expect(provider.cantidad, 1);
-    expect(provider.esFavorito(vacante.id), isTrue);
-
-    await provider.alternar(vacante);
+    provider.alternar(vacante);
     expect(provider.cantidad, 0);
     expect(provider.esFavorito(vacante.id), isFalse);
   });

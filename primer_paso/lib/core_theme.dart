@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'vacante_model.dart';
-
 /// Paleta global de "Primer Paso" (ODS 8: trabajo decente).
 class AppColors {
   static const Color primario = Color(0xFF183B5B);
@@ -19,26 +17,16 @@ class AppColors {
   static const Color beca = Color(0xFF2E7D5B);
   static const Color practica = Color(0xFF8A5A14);
 
-  static Color colorTipo(TipoOportunidad tipo) {
-    switch (tipo) {
-      case TipoOportunidad.vacante:
-        return vacante;
-      case TipoOportunidad.beca:
-        return beca;
-      case TipoOportunidad.practica:
-        return practica;
-    }
+  static Color colorTipo(String tipo) {
+    if (tipo == 'Beca') return beca;
+    if (tipo == 'Práctica') return practica;
+    return vacante;
   }
 
-  static IconData iconoTipo(TipoOportunidad tipo) {
-    switch (tipo) {
-      case TipoOportunidad.vacante:
-        return Icons.work_outline;
-      case TipoOportunidad.beca:
-        return Icons.school_outlined;
-      case TipoOportunidad.practica:
-        return Icons.assignment_outlined;
-    }
+  static IconData iconoTipo(String tipo) {
+    if (tipo == 'Beca') return Icons.school_outlined;
+    if (tipo == 'Práctica') return Icons.assignment_outlined;
+    return Icons.work_outline;
   }
 }
 

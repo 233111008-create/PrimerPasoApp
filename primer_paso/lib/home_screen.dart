@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'app_routes.dart';
+import 'auth_screen.dart';
 import 'auth_repository.dart';
 import 'core_theme.dart';
 import 'custom_button.dart';
 import 'favoritos_provider.dart';
+import 'favoritos_screen.dart';
 import 'vacante_model.dart';
 import 'vacante_repository.dart';
+import 'vacantes_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -29,9 +31,9 @@ class HomeScreen extends StatelessWidget {
               await AuthRepository().cerrarSesion();
               favoritos.limpiar();
               if (!context.mounted) return;
-              Navigator.pushNamedAndRemoveUntil(
+              Navigator.pushAndRemoveUntil(
                 context,
-                AppRoutes.auth,
+                MaterialPageRoute(builder: (context) => const AuthScreen()),
                 (route) => false,
               );
             },
@@ -158,7 +160,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: AppSpacing.sm),
           Row(
             children: [
-              for (final tipo in TipoOportunidad.values)
+              for (final tipo in tiposOportunidad)
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -171,14 +173,26 @@ class HomeScreen extends StatelessWidget {
           CustomButton(
             texto: 'Ver todas las oportunidades',
             icono: Icons.list,
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.vacantes),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const VacantesScreen()),
+              );
+            },
           ),
           const SizedBox(height: AppSpacing.md),
           CustomButton(
             texto: 'Mis favoritos',
             icono: Icons.favorite_border,
             outlined: true,
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.favoritos),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavoritosScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -228,7 +242,7 @@ class _Estadistica extends StatelessWidget {
 }
 
 class _AccesoTipo extends StatelessWidget {
-  final TipoOportunidad tipo;
+  final String tipo;
 
   const _AccesoTipo({required this.tipo});
 
@@ -236,14 +250,18 @@ class _AccesoTipo extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = AppColors.colorTipo(tipo);
     // Etiqueta en plural para el acceso rápido.
-    final nombre = tipo == TipoOportunidad.practica
-        ? 'Prácticas'
-        : '${tipo.etiqueta}s';
+    final nombre = tipo == 'Práctica' ? 'Prácticas' : '${tipo}s';
 
     return InkWell(
       borderRadius: BorderRadius.circular(18),
-      onTap: () =>
-          Navigator.pushNamed(context, AppRoutes.vacantes, arguments: tipo),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VacantesScreen(tipoInicial: tipo),
+          ),
+        );
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
         decoration: BoxDecoration(

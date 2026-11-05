@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app_routes.dart';
+import 'auth_screen.dart';
 import 'core_theme.dart';
 import 'custom_button.dart';
 
@@ -37,31 +37,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
-  final PageController _controller = PageController();
   int _pagina = 0;
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void _irAAuth() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const AuthScreen()),
+    );
   }
-
-  void _irAAuth() => Navigator.pushReplacementNamed(context, AppRoutes.auth);
 
   void _siguiente() {
     if (_pagina == _paginas.length - 1) {
       _irAAuth();
     } else {
-      _controller.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      setState(() => _pagina++);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final esUltima = _pagina == _paginas.length - 1;
+    final p = _paginas[_pagina];
 
     return Scaffold(
       body: SafeArea(
@@ -75,54 +71,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             Expanded(
-              child: PageView.builder(
-                controller: _controller,
-                itemCount: _paginas.length,
-                onPageChanged: (i) => setState(() => _pagina = i),
-                itemBuilder: (context, i) {
-                  final p = _paginas[i];
-                  return Padding(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 160,
-                          height: 160,
-                          decoration: BoxDecoration(
-                            color: AppColors.primario.withValues(alpha: 0.1),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            p.icono,
-                            size: 72,
-                            color: AppColors.primario,
-                          ),
-                        ),
-                        const SizedBox(height: AppSpacing.xl),
-                        Text(
-                          p.titulo,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        Text(
-                          p.texto,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
+              child: Padding(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 160,
+                      height: 160,
+                      decoration: BoxDecoration(
+                        color: AppColors.primario.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        p.icono,
+                        size: 72,
+                        color: AppColors.primario,
+                      ),
                     ),
-                  );
-                },
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(
+                      p.titulo,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    Text(
+                      p.texto,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(_paginas.length, (i) {
                 final activa = i == _pagina;
-                return AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
+                return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   width: activa ? 24 : 8,
                   height: 8,

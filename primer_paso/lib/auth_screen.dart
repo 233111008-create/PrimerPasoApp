@@ -1,10 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'app_bootstrap.dart';
-import 'app_routes.dart';
 import 'auth_repository.dart';
 import 'core_theme.dart';
 import 'custom_button.dart';
+import 'home_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -15,7 +15,6 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final AuthRepository _auth = AuthRepository();
-  final _formKey = GlobalKey<FormState>();
   final _correoCtrl = TextEditingController();
   final _contrasenaCtrl = TextEditingController();
   bool _esRegistro = false;
@@ -30,13 +29,16 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   Future<void> _enviar() async {
-    if (!_formKey.currentState!.validate()) return;
+    final correo = _correoCtrl.text.trim();
+    final contrasena = _contrasenaCtrl.text;
+    if (correo.isEmpty || contrasena.isEmpty) {
+      setState(() => _error = 'Escribe tu correo y contraseña.');
+      return;
+    }
     setState(() {
       _cargando = true;
       _error = null;
     });
-    final correo = _correoCtrl.text.trim();
-    final contrasena = _contrasenaCtrl.text;
     try {
       if (_esRegistro) {
         await _auth.registrar(correo, contrasena);
@@ -44,15 +46,13 @@ class _AuthScreenState extends State<AuthScreen> {
         await _auth.iniciarSesion(correo, contrasena);
       }
       if (!mounted) return;
-      await cargarDatosIniciales(context);
-      if (!mounted) return;
-      Navigator.pushNamedAndRemoveUntil(
+      Navigator.pushAndRemoveUntil(
         context,
-        AppRoutes.home,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
         (route) => false,
       );
-    } on AuthException catch (e) {
-      setState(() => _error = e.mensaje);
+    } on FirebaseAuthException catch (e) {
+      setState(() => _error = AuthRepository.mensajeDeError(e));
     } finally {
       if (mounted) setState(() => _cargando = false);
     }
@@ -67,9 +67,7 @@ class _AuthScreenState extends State<AuthScreen> {
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.lg),
-          child: Form(
-            key: _formKey,
-            child: ConstrainedBox(
+          child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 460),
               child: Container(
                 padding: const EdgeInsets.all(AppSpacing.lg),
@@ -97,35 +95,22 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.lg),
-                    TextFormField(
+                    TextField(
                       controller: _correoCtrl,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         labelText: 'Correo electrónico',
                         prefixIcon: Icon(Icons.mail_outline),
                       ),
-                      validator: (v) {
-                        final t = (v ?? '').trim();
-                        if (t.isEmpty) return 'Escribe tu correo.';
-                        if (!t.contains('@') || !t.contains('.')) {
-                          return 'Correo no válido.';
-                        }
-                        return null;
-                      },
                     ),
                     const SizedBox(height: AppSpacing.md),
-                    TextFormField(
+                    TextField(
                       controller: _contrasenaCtrl,
                       obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Contraseña',
                         prefixIcon: Icon(Icons.lock_outline),
                       ),
-                      validator: (v) {
-                        if ((v ?? '').isEmpty) return 'Escribe tu contraseña.';
-                        if (v!.length < 6) return 'Mínimo 6 caracteres.';
-                        return null;
-                      },
                     ),
                     if (_error != null) ...[
                       const SizedBox(height: AppSpacing.md),
@@ -159,7 +144,6 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ),
           ),
-        ),
       ),
     );
   }

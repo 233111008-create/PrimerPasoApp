@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'app_routes.dart';
 import 'core_theme.dart';
 import 'favoritos_provider.dart';
-import 'favoritos_ui.dart';
 import 'vacante_card.dart';
+import 'vacante_detail_screen.dart';
 
 class FavoritosScreen extends StatelessWidget {
   const FavoritosScreen({super.key});
@@ -27,15 +26,16 @@ class FavoritosScreen extends StatelessWidget {
                 return VacanteCard(
                   vacante: v,
                   esFavorito: true,
-                  onFavorito: () => ejecutarCambioFavorito(
-                    context,
-                    () => context.read<FavoritosProvider>().quitar(v.id),
-                  ),
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    AppRoutes.detalle,
-                    arguments: v,
-                  ),
+                  onFavorito: () =>
+                      context.read<FavoritosProvider>().quitar(v.id),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VacanteDetailScreen(vacante: v),
+                      ),
+                    );
+                  },
                 );
               },
             ),

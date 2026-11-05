@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'core_theme.dart';
 import 'custom_button.dart';
 import 'favoritos_provider.dart';
-import 'favoritos_ui.dart';
 import 'vacante_model.dart';
 
 /// Detalle: recibe la [Vacante] como argumento de navegación.
@@ -22,7 +21,7 @@ class VacanteDetailScreen extends StatelessWidget {
     final estilo = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text(vacante.tipo.etiqueta)),
+      appBar: AppBar(title: Text(vacante.tipo)),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
@@ -88,10 +87,8 @@ class VacanteDetailScreen extends StatelessWidget {
           CustomButton(
             texto: esFavorito ? 'Quitar de favoritos' : 'Guardar en favoritos',
             icono: esFavorito ? Icons.favorite : Icons.favorite_border,
-            onPressed: () => ejecutarCambioFavorito(
-              context,
-              () => context.read<FavoritosProvider>().alternar(vacante),
-            ),
+            onPressed: () =>
+                context.read<FavoritosProvider>().alternar(vacante),
           ),
         ],
       ),

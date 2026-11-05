@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'app_bootstrap.dart';
-import 'app_routes.dart';
 import 'auth_repository.dart';
 import 'core_theme.dart';
+import 'home_screen.dart';
+import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,6 +13,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final AuthRepository _auth = AuthRepository();
+
   @override
   void initState() {
     super.initState();
@@ -20,16 +22,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _decidirDestino() async {
-    final pausa = Future.delayed(const Duration(seconds: 2));
-    final haySesion = await AuthRepository().restaurarSesion();
-    if (haySesion && mounted) {
-      await cargarDatosIniciales(context);
-    }
-    await pausa;
+    final sesionFuture = _auth.cambiosDeSesion.first;
+    await Future.delayed(const Duration(seconds: 5));
+    final usuario = await sesionFuture;
     if (!mounted) return;
-    Navigator.pushReplacementNamed(
+    Navigator.pushAndRemoveUntil(
       context,
-      haySesion ? AppRoutes.home : AppRoutes.onboarding,
+      MaterialPageRoute(
+        builder: (context) =>
+            usuario != null ? const HomeScreen() : const OnboardingScreen(),
+      ),
+      (route) => false,
     );
   }
 
@@ -46,11 +49,8 @@ class _SplashScreenState extends State<SplashScreen> {
               'img/logo.png',
               width: 120,
               height: 120,
-              errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.trending_up,
-                size: 96,
-                color: Colors.white,
-              ),
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.trending_up, size: 96, color: Colors.white),
             ),
             const SizedBox(height: AppSpacing.lg),
             const Text(
